@@ -42,4 +42,19 @@ class ProductServiceTest {
         assertEquals(15, updated.getStockQuantity());
     }
 
+    @Test
+    void tesDecreaseStock(){
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Laptop");
+        product.setDescription("Test Laptop");
+        product.setStockQuantity(10L);
+
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.save(any(Product.class))).thenAnswer(i->i.getArguments()[0]);
+
+        Product updated = productService.decreaseStock(1L,5);
+
+        assertEquals(5, updated.getStockQuantity());
+    }
 }
